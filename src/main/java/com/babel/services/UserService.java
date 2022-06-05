@@ -13,6 +13,8 @@ import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
+import java.sql.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -62,6 +64,7 @@ public class UserService {
         String salt = generateSalt();
         System.out.println("Generated salt: [" + generateSalt() + "]");
         User user = new User(username, salt, encryptPassword(password, salt));
+        user.setCreationDate(Date.valueOf(LocalDate.now()));
         userRepo.save(user);
     }
 
@@ -102,6 +105,8 @@ public class UserService {
      * @throws IllegalPasswordException
      */
     public void checkPassword(String password) throws IllegalPasswordException {
+        if(password == null)
+            throw new IllegalPasswordException("Empty password field");
         if (password.length() < 20)
             throw new IllegalPasswordException("Password is too short. Minimum allowed length is 20");
         if (password.length() > 256)
@@ -129,6 +134,8 @@ public class UserService {
      * @throws IllegalUsernameException
      */
     public void checkUsername(String username) throws IllegalUsernameException {
+        if(username == null)
+            throw new IllegalUsernameException("Empty username field");
         if (username.length() < 4)
             throw new IllegalUsernameException("Username is too short. Minimum allowed length is 4");
         if (username.length() > 32)

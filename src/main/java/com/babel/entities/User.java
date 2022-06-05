@@ -3,6 +3,7 @@ package com.babel.entities;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,6 +28,17 @@ public class User implements Serializable {
     private String salt;
     @Column(name = "password")
     private String password;
+
+    @Column(name = "creation_date")
+    private Date creationDate;
+
+    public Date getCreationDate() {
+        return creationDate;
+    }
+
+    public void setCreationDate(Date creationDate) {
+        this.creationDate = creationDate;
+    }
 
     //-----------------
     public User() {

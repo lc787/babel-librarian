@@ -6,15 +6,18 @@ import com.babel.exceptions.IllegalPasswordException;
 import com.babel.exceptions.IllegalUsernameException;
 import com.babel.exceptions.NotAUserException;
 import com.babel.exceptions.WrongPasswordException;
+import com.babel.services.PLSQLService;
 import com.babel.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.SQLException;
 import java.util.List;
 
 @RestController
+@CrossOrigin
 @RequestMapping("/users")
 public class UserController {
     private final UserService userService;
@@ -29,23 +32,32 @@ public class UserController {
         return userService.getUsers();
     }
 
+    @GetMapping("/sql")
+    public ResponseEntity<Object> callFunction(@RequestParam("id1") int id1, @RequestParam("id2") int id2) {
+        PLSQLService plsqlService = new PLSQLService();
+
+        try {
+            return new ResponseEntity<>(plsqlService.callFunction(id1, id2), HttpStatus.OK);
+        } catch (SQLException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
     @GetMapping("/{id}")
-    public ResponseEntity<User> getUser(@PathVariable("id") int id) {
+    public ResponseEntity<Object> getUser(@PathVariable("id") int id) {
         try {
             return new ResponseEntity<>(userService.getUser(id), HttpStatus.OK);
         } catch (NotAUserException e) {
-            e.printStackTrace();
-            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
 
     @GetMapping("/search")
-    public ResponseEntity<User> getUser(@RequestParam String username) {
+    public ResponseEntity<Object> getUser(@RequestParam String username) {
         try {
             return new ResponseEntity<>(userService.getUser(username), HttpStatus.OK);
         } catch (NotAUserException e) {
-            e.printStackTrace();
-            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
 
