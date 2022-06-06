@@ -10,6 +10,7 @@ import com.babel.services.BookService;
 import com.babel.services.GoogleApiService;
 import com.babel.services.LibGenApiService;
 import com.babel.services.UserService;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -22,7 +23,7 @@ import java.util.List;
 
 @RestController
 @CrossOrigin
-@RequestMapping("/books")
+@RequestMapping("/api/v1/books")
 public class BookController {
     private final BookService bookService;
     private final GoogleApiService googleApiService;
@@ -39,6 +40,7 @@ public class BookController {
 
 
     @GetMapping("/foreign")
+    @ApiOperation(value = "test for libgen api call")
     public ResponseEntity<Object> testApp(@RequestParam("bookName") String bookName) {
         try {
             return new ResponseEntity<>(libGenApiService.fetchPossibleBookInfo(bookName, 5), HttpStatus.OK);
@@ -49,6 +51,7 @@ public class BookController {
     }
 
     @GetMapping("/{id}")
+    @ApiOperation(value = "get book info via id")
     public ResponseEntity<Object> getBook(@PathVariable("id") int id) {
         try {
             return new ResponseEntity<>(bookService.getBook(id), HttpStatus.OK);
@@ -58,12 +61,14 @@ public class BookController {
     }
 
     @GetMapping
+    @ApiOperation(value = "get a list of all books available in the library")
     public List<Book> getBooks() {
         return bookService.getBooks();
     }
 
 
     @PostMapping(consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
+    @ApiOperation(value = "upload book")
     public ResponseEntity<Object> uploadBook(@RequestParam("bookFile") MultipartFile book) {
         try {
             bookService.addBook(book, userService.getUser("alpaca"));

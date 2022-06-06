@@ -77,7 +77,7 @@ public class LibGenApiService {
                 .bodyToFlux(String.class)
                 .collectList()
                 .block(REQUEST_TIMEOUT);
-        return stringList.stream().filter(string -> string.contains("@book{book:")).collect(Collectors.toList()).get(0).split("book:")[1].split(",")[0]; //Can't possibly throw
+        return stringList.stream().filter(string -> string.contains("@book{book:")).toList().get(0).split("book:")[1].split(",")[0]; //Can't possibly throw
     }
 
     private List<BookInformation> getBooksInfoFromLibGenBookId(List<String> ids) {

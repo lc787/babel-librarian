@@ -19,6 +19,10 @@ import java.util.List;
 
 @Service
 public class UserService {
+    public static final int MIN_PASSWORD = 20;
+    public static final int MAX_PASSWORD = 256;
+    public static final int MIN_USERNAME = 3;
+    public static final int MAX_USERNAME = 32;
     private final UserRepo userRepo;
 
     public UserService(UserRepo userRepo) {
@@ -108,9 +112,9 @@ public class UserService {
         if(password == null)
             throw new IllegalPasswordException("Empty password field");
         if (password.length() < 20)
-            throw new IllegalPasswordException("Password is too short. Minimum allowed length is 20");
+            throw new IllegalPasswordException("Password is too short. Minimum allowed length is " + MIN_PASSWORD);
         if (password.length() > 256)
-            throw new IllegalPasswordException("Password is too long. Maximum allowed length is 255");
+            throw new IllegalPasswordException("Password is too long. Maximum allowed length is " + MAX_PASSWORD);
         if (!password.matches("[A-z0-9!@#$%^&*]+"))
             throw new IllegalPasswordException("Password contains illegal characters. A password may only contain alphanumeric and special characters('!@#$%^&*')");
      /*   if (!password.matches("[A-z]{5}"))
@@ -137,9 +141,9 @@ public class UserService {
         if(username == null)
             throw new IllegalUsernameException("Empty username field");
         if (username.length() < 4)
-            throw new IllegalUsernameException("Username is too short. Minimum allowed length is 4");
+            throw new IllegalUsernameException("Username is too short. Minimum allowed length is " + MIN_USERNAME);
         if (username.length() > 32)
-            throw new IllegalUsernameException("Username is too long. Maximum allowed length is 31");
+            throw new IllegalUsernameException("Username is too long. Maximum allowed length is " + MAX_USERNAME);
         if (!username.matches("[A-z|0-9|_]+"))
             throw new IllegalUsernameException("Username contains illegal characters. A username may only contain alphanumeric characters and '_'");
       /*  if (!username.matches("(.*[A-z]){2}"))
