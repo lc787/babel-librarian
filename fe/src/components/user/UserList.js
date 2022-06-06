@@ -1,25 +1,18 @@
 import React from 'react';
-import axios from 'axios';
 
-export default class UserList extends React.Component{
-    state = {
-        users: []
-    }
+export default class UserList extends React.Component {
 
-    componentDidMount(){
-        axios.get('http://localhost:8080/users')
-            .then(res => {
-                const users = res.data;
-                this.setState({ users });
-            })
+    constructor(props) {
+        super(props);
+        this.state = {};
     }
 
     render() {
         return (
             <ul>
                 {
-                    this.state.users
-                        .map(user => 
+                    this.props.users
+                        .map(user =>
                             <li key={user.id}>{user.username}</li>)
                 }
             </ul>

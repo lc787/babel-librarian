@@ -2,43 +2,56 @@ import React from 'react';
 import axios from 'axios';
 
 export default class UserRegister extends React.Component {
-    state = {
-        username: '',
-        password: ''
+
+    constructor(props) {
+        super(props);
+        this.state = {username: '', password: ''};
     }
 
-    handleChange = event => {
-        this.setState({username: event.target.value1, password: event.target.value2});
+
+    handleUsernameChange = event => {
+        this.setState({username: event.target.value});
+    }
+
+    handlePasswordChange = event => {
+        this.setState({password: event.target.value});
     }
 
     handleSubmit = event => {
         event.preventDefault();
-
-        const user = {
-            username: this.state.username,
-            password: this.state.password
-        };
-
-        axios.post('http://localhost:8080/users', { user })
+        const data = JSON.stringify(this.state);
+        console.log(data);
+        axios({
+            url: "http://localhost:8080/users",
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            data: data
+        })
             .then(res => {
+                debugger
                 console.log(res);
-                console.log(res.data);
+                this.setState({username: '', password: ''});
+                this.props.populateUsers();
+            })
+            .catch(error => {
+                console.log(error);
             })
     }
 
     render() {
         return (
             <div>
-                <form onSubmit={this.handleSubmit}>
-                    <label>
-                        Username:
-                        <input type="text" name="username" onChange={this.handleChange} />
-                        Password:
-                        <input type="hidden" name="password" onChange={this.handleChange} />
-                        submit:
-                        <input type="submit" name="submit"/>
-                    </label>
-                </form>
+                <label>
+                    Username:<br/>
+                    <input type="text" name="username" value={this.state.username}
+                           onChange={this.handleUsernameChange}/> <br/>
+                    Password: <br/>
+                    <input type="password" name="password" value={this.state.password}
+                           onChange={this.handlePasswordChange}/> <br/>
+                    <input type="submit" name="submit" onClick={this.handleSubmit}/> <br/>
+                </label>
             </div>
         )
     }
