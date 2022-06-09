@@ -35,12 +35,16 @@ public class Book implements Serializable {
     @JoinColumn(name = "genre_id", referencedColumnName = "id")
     private Genre genre;
 
-    //-----------
+    @Column(name = "volume_info")
+    private String volumeInfo;
 
-    public Book(Item item, String title, String publisher, String formatted, String series, String edition, Object genre) {
+
+//-----------
+
+    public Book() {
     }
 
-    public Book(Item item, String title, String publisher, int year, String series, String edition, Genre genre) {
+    public Book(Item item, String title, String publisher, int year, String series, String edition, Genre genre, String volumeInfo) {
         this.item = item;
         this.title = title;
         this.publisher = publisher;
@@ -48,6 +52,7 @@ public class Book implements Serializable {
         this.series = series;
         this.edition = edition;
         this.genre = genre;
+        this.volumeInfo = volumeInfo;
     }
 
     public Integer getId() {
@@ -104,5 +109,13 @@ public class Book implements Serializable {
 
     public void setGenre(Genre genre) {
         this.genre = genre;
+    }
+
+    public String getVolumeInfo() {
+        return volumeInfo;
+    }
+
+    public void setVolumeInfo(String volumeInfo) {
+        this.volumeInfo = volumeInfo;
     }
 }

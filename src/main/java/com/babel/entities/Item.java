@@ -1,5 +1,7 @@
 package com.babel.entities;
 
+import com.sun.istack.NotNull;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -22,6 +24,7 @@ public class Item implements Serializable {
      * Relative path from working directory to item
      */
     @Column(name = "file_path")
+    @NotNull //TODO: validate annotation safety
     private String filePath;
     /**
      * Describes ownership of item
@@ -69,6 +72,7 @@ public class Item implements Serializable {
         this.type = type;
     }
 
+    @NotNull
     public String getFilePath() {
         return filePath;
     }

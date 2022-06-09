@@ -4,25 +4,28 @@ import java.util.List;
 
 public class BookInformation {
     private String title;
-    private String author;
+    private List<String> authors;
     private String publisher;
-    private String year;
+    private int year = 0;
     private String edition;
     private String series;
     private String volumeinfo;
+
+    private String genre;
 
     public BookInformation() {
 
     }
 
-    public BookInformation(String title, String author, String publisher, List<String> isbn, String year, String series, String edition, String volume, String volumeinfo) {
+    public BookInformation(String title, List<String> authors, String publisher, List<String> isbn, int year, String series, String edition, String volume, String volumeinfo, String genre) {
         this.title = title;
-        this.author = author;
+        this.authors = authors;
         this.publisher = publisher;
         this.year = year;
         this.series = series;
         this.edition = edition;
         this.volumeinfo = volumeinfo;
+        this.genre = genre;
     }
 
     public String getTitle() {
@@ -33,12 +36,12 @@ public class BookInformation {
         this.title = title;
     }
 
-    public String getAuthor() {
-        return author;
+    public List<String> getAuthors() {
+        return authors;
     }
 
-    public void setAuthor(String author) {
-        this.author = author;
+    public void setAuthors(List<String> authors) {
+        this.authors = authors;
     }
 
     public String getPublisher() {
@@ -49,11 +52,11 @@ public class BookInformation {
         this.publisher = publisher;
     }
 
-    public String getYear() {
+    public int getYear() {
         return year;
     }
 
-    public void setYear(String year) {
+    public void setYear(int year) {
         this.year = year;
     }
 
@@ -81,11 +84,19 @@ public class BookInformation {
         this.volumeinfo = volumeInfo;
     }
 
+    public String getGenre() {
+        return genre;
+    }
+
+    public void setGenre(String genre) {
+        this.genre = genre;
+    }
+
     @Override
     public String toString() {
         return "BookInformation{" +
                 "title='" + title + '\'' +
-                ", author=" + author +
+                ", author=" + authors +
                 ", publisher='" + publisher + '\'' +
                 ", year='" + year + '\'' +
                 ", series='" + series + '\'' +

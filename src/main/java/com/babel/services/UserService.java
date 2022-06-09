@@ -44,7 +44,7 @@ public class UserService {
         try {
             checkUsername(username); // We want no malicious input
         } catch (IllegalUsernameException e) {
-            throw new NotAUserException("No username registered");
+            throw new NotAUserException("No username registered"); //in reality that's just an illegal username
         }
         User user = userRepo.findByUsername(username).orElse(null);
         if (user == null) throw new NotAUserException("No username registered");
